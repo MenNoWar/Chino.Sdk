@@ -91,8 +91,9 @@ More "Getting started" about to come, but i guess you got the point.
 
 # Changes:
 2017-10-10: 
-- added new Methods to Schema:
- -- GetSchemaForType: generates a Schema for a class
- -- CreateSchemaForType: generates and creates the schema for a class
- -- CreateSchemaForAssembly: generates and creates the schema for all classes in an Assembly
-- Setters of the BasicListResult class are now public (internal before)
+ added new Methods to Schema:
+ - GetSchemaForType: generates a Schema for a class
+ - CreateSchemaForType: generates and creates the schema for a class
+ - CreateSchemaForAssembly: generates and creates the schema for all classes in an Assembly
+ 
+ Setters of the BasicListResult class are now public (internal before)
