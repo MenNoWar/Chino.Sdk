@@ -87,3 +87,11 @@ catch (ChinoApiException ex)
 The magic thing is, that from now on, the complete communication with the Api-Server uses the credentials we used to login. That way the Permissions and Rules you set up for your users are taking place.
 
 More "Getting started" about to come, but i guess you got the point.
+
+
+# Changes:
+2017-10-10: added new Methods to Schema:
+ - GetSchemaForType: generates a Schema for a class
+ - CreateSchemaForType: generates and creates the schema for a class
+ - CreateSchemaForAssembly: generates and creates the schema for all classes in an Assembly
+ - Setters of the BasicListResult class are now public (internal before)
