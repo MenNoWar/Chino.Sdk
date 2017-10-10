@@ -16,21 +16,21 @@ namespace Chino.Sdk.Response
     using System.Collections.Generic;
 
     /// <summary>
-    /// Defines the <see cref="DocumentList" />
+    /// Defines the <see cref="ListDocumentsResponse" />
     /// </summary>
-    public class DocumentList : BasicResponse
+    public class ListDocumentsResponse : BasicResponse
     {
         /// <summary>
         /// Gets or sets the Data
         /// </summary>
         [JsonProperty(PropertyName = "data")]
-        public DocumentListDataElement Data { get; set; }
+        public DocumentList Data { get; set; }
     }
 
     /// <summary>
-    /// Defines the <see cref="DocumentListDataElement" />
+    /// Defines the <see cref="DocumentList" />
     /// </summary>
-    public class DocumentListDataElement : BasicListElement
+    public class DocumentList : BasicListElement
     {
         /// <summary>
         /// Gets or sets the Documents

@@ -80,7 +80,7 @@ namespace Chino.Sdk
         /// <param name="schemaId">the schema under which the documents reside</param>
         /// <param name="includeContent">indicating whether the document content should be returned</param>
         /// <returns>a response including a list of <see cref="Document"/>s</returns>
-        internal static DocumentList List(RestClient client, int start, int limit, string schemaId, bool includeContent)
+        internal static ListDocumentsResponse List(RestClient client, int start, int limit, string schemaId, bool includeContent)
         {
             var uri = string.Format("/schemas/{0}/documents", schemaId);
             var request = new RestRequest(uri, Method.GET);
@@ -88,7 +88,7 @@ namespace Chino.Sdk
             request.AddQueryParameter("offset", start.ToString());
             request.AddQueryParameter("limit", limit.ToString());
 
-            var result = Rest.Execute<DocumentList>(client, request);
+            var result = Rest.Execute<ListDocumentsResponse>(client, request);
             return result;
         }
 
