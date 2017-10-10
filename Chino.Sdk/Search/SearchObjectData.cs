@@ -13,6 +13,7 @@
 namespace Chino.Sdk
 {
     using Chino.Sdk.Response;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Defines the <see cref="SearchObjectData" />
@@ -22,6 +23,7 @@ namespace Chino.Sdk
         /// <summary>
         /// a list containing the converted items of a search result. Used in <see cref="Search.SearchDocumentsSpecialized{T}(string, int, int)"/>.
         /// </summary>
+        [JsonProperty(PropertyName = "items")]
         public System.Collections.IEnumerable Items { get; set; }
     }
 }
