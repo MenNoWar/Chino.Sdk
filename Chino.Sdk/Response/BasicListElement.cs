@@ -23,24 +23,24 @@ namespace Chino.Sdk.Response
         /// Get a value indicating the the amount of records returned
         /// </summary>
         [JsonProperty(PropertyName = "count")]
-        public int Count { get; internal set; }
+        public int Count { get; protected set; }
 
         /// <summary>
         /// Gets a value indicating how many records are aviable on the server
         /// </summary>
         [JsonProperty(PropertyName = "total_count")]
-        public int Total { get; internal set; }
+        public int Total { get; protected set; }
 
         /// <summary>
         /// Gets a value indicating how many records are max returned in this request (aka PageSize)
         /// </summary>
         [JsonProperty(PropertyName = "limit")]
-        public int Limit { get; internal set; }
+        public int Limit { get; protected set; }
 
         /// <summary>
         /// Gets a value where the resulting list startet
         /// </summary>
         [JsonProperty(PropertyName = "offset")]
-        public int Start { get; internal set; }
+        public int Start { get; protected set; }
     }
 }
