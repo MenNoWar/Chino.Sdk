@@ -161,7 +161,7 @@ namespace Chino.Sdk
         /// Gets or sets the id of the document
         /// </summary>
         [JsonProperty(PropertyName = "document_id")]
-        public string Id { get; internal set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets the content of the document
@@ -176,10 +176,10 @@ namespace Chino.Sdk
         public DateTime Updated { get; internal set; }
 
         /// <summary>
-        /// Gets value indicating whether the Documt is active or deactived
+        /// Gets or sets a value indicating whether the Documt is active or deactived
         /// </summary>
         [JsonProperty(PropertyName = "is_active")]
-        public bool IsActive { get; internal set; }
+        public bool IsActive { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating when the Document was created

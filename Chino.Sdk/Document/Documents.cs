@@ -52,7 +52,7 @@ namespace Chino.Sdk
         /// <returns>a list of <see cref="Document"/>s</returns>
         public DocumentList List(string schemaId, bool includeContent)
         {
-            return List(0, schemaId, includeContent).Data;
+            return List(0, schemaId, includeContent);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Chino.Sdk
         /// <param name="schemaId">the schema under which the documents reside</param>
         /// <param name="includeContent">indicating whether the document content should be returned</param>
         /// <returns>a list of <see cref="Document"/>s</returns>
-        public ListDocumentsResponse List(int start, string schemaId, bool includeContent)
+        public DocumentList List(int start, string schemaId, bool includeContent)
         {
             return List(start, 50, schemaId, includeContent);
         }
@@ -75,9 +75,9 @@ namespace Chino.Sdk
         /// <param name="schemaId">the schema under which the documents reside</param>
         /// <param name="includeContent">indicating whether the document content should be returned</param>
         /// <returns>a list of <see cref="Document"/>s</returns>
-        public ListDocumentsResponse List(int start, int limit, string schemaId, bool includeContent)
+        public DocumentList List(int start, int limit, string schemaId, bool includeContent)
         {
-            return Document.List(client, start, limit, schemaId, includeContent);
+            return Document.List(client, start, limit, schemaId, includeContent).Data;
         }
 
         /// <summary>
