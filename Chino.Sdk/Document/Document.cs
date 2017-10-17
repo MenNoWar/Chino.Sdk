@@ -48,11 +48,25 @@ namespace Chino.Sdk
                 var prop = props.FirstOrDefault(o => string.Compare(o.Name, kvp.Key, true) == 0);
                 if (prop != null)
                 {
+                    if (prop.PropertyType == typeof(byte[])) continue;
+
                     var val = kvp.Value;
                     if (val is Int64)
                     {
                         val = Convert.ToInt32(val);
                     }
+                    
+                    //{
+                    //    if (string.IsNullOrEmpty(Convert.ToString(val)))
+                    //    {
+                    //        val = null;
+                    //    }
+                    //    else
+                    //    {
+                    //        val = Convert.FromBase64String(Convert.ToString(val));
+                    //    }
+                    //}
+
 
                     prop.SetValue(obj, val);
                 }

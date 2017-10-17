@@ -12,6 +12,7 @@
 
 namespace Chino.Sdk
 {
+    using System;
     using RestSharp;
 
     /// <summary>
@@ -33,31 +34,29 @@ namespace Chino.Sdk
             this.client = client;
         }
 
-        //public Blob CommitUpload(string uploadId)
-        //{
-        //    return Blob.CommitUpload(client, uploadId);
-        //}
-
-        //public BlobDefinition UploadChunk(string upload_id, byte[] chunkData, int offset, int length)
-        //{
-        //    return Blob.UploadChunk(client, upload_id, chunkData, offset, length);
-        //}
-
-        //public BlobDefinition InitUpload(string documentId, string field, string fileName)
-        //{
-        //    return Blob.InitUpload(client, documentId, field, fileName);
-        //}
         /// <summary>
-        /// The Upload
+        /// Upload a document to the server
         /// </summary>
         /// <param name="uploadFilePath">The <see cref="string"/></param>
         /// <param name="documentId">The <see cref="string"/></param>
         /// <param name="field">The <see cref="string"/></param>
         /// <param name="fileName">The <see cref="string"/></param>
-        /// <returns>The <see cref="Blob"/></returns>
+        /// <returns>a new instance of the <see cref="Blob"/></returns>
         public Blob Upload(string uploadFilePath, string documentId, string field, string fileName)
         {
             return Blob.Upload(client, uploadFilePath, documentId, field, fileName);
+        }
+
+        /// <summary>
+        /// Upload a document to the server
+        /// </summary>
+        /// <param name="data">The byte array to upload to the server</param>
+        /// <param name="documentId">The <see cref="string"/></param>
+        /// <param name="field">The <see cref="string"/></param>
+        /// <returns>a new instance of the <see cref="Blob"/></returns>
+        public Blob Upload(byte[] data, string documentId, string field)
+        {
+            return Blob.Upload(client, data, documentId, field);
         }
 
         /// <summary>

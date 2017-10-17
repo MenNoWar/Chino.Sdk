@@ -20,11 +20,37 @@ namespace Chino.Sdk.Attributes
     public class ChinoAttribute : Attribute
     {
         /// <summary>
+        /// Gets or sets a value indicating whether this field should be indexed when creating a schema from the class/type
+        /// </summary>
+        public bool Indexed { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the automatic estimated fieldtype should be overridden with the specified <seealso cref="FieldType"/>
+        /// </summary>
+        public bool OverrideAutomaticFieldType { get; private set; }
+
+        private SchemaFieldType _fieldType = SchemaFieldType.@string;
+
+        /// <summary>
+        /// Gets or sets the <seealso cref="SchemaFieldType"/> to use for the generated field
+        /// </summary>
+        public SchemaFieldType FieldType
+        {
+            get { return _fieldType; }
+            set
+            {
+                _fieldType = value;
+                OverrideAutomaticFieldType = true;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ChinoAttribute"/> class
         /// </summary>
         public ChinoAttribute()
         {
             Generate = true;
+            OverrideAutomaticFieldType = false;
         }
 
         /// <summary>
@@ -33,7 +59,7 @@ namespace Chino.Sdk.Attributes
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to generate or ignore a property
+        /// Gets or sets a value indicating whether to generate or ignore a property/class
         /// </summary>
         public bool Generate { get; set; }
     }

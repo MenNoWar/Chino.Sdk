@@ -191,6 +191,11 @@ namespace Chino.Sdk
             }
 
             var schema = GetSchemaForType(description, classType);
+
+            schema.Description = description;
+            schema.RepositoryId = repositoryId;
+            schema.IsActive = true;
+
             return Schema.Create(client, repositoryId, schema);
         }
 
@@ -207,7 +212,9 @@ namespace Chino.Sdk
 
             foreach (var property in classType.GetProperties().Where(oobj => !oobj.IsSpecialName && oobj.CanRead && oobj.CanWrite).ToList())
             {
+                var addField = true;
                 // only use properties that are sealed, should lead to strings, ints, bools, datetimes
+                // and limiting to canWrite removes the Get-only properties.
                 var ignoreAttrib = property.GetCustomAttribute<Attributes.IgnorePropertyAttribute>();
                 if (ignoreAttrib == null)
                 {
@@ -218,7 +225,31 @@ namespace Chino.Sdk
                         var idxt = property.Name.ToUpper().EndsWith("ID");
                         var type = Utils.CLRTypeToFieldType(property.PropertyType);
                         SchemaField f = new SchemaField { Name = property.Name, Type = type, IsIndexed = idxt };
-                        fields.Add(f);
+
+                        var fieldTypeAttrib = property.GetCustomAttribute<Attributes.ChinoAttribute>();
+                        if (fieldTypeAttrib != null)
+                        {
+                            
+                            if (fieldTypeAttrib.OverrideAutomaticFieldType)
+                            {
+                                f.Type = fieldTypeAttrib.FieldType;
+                            }
+
+                            if (fieldTypeAttrib.Indexed)
+                            {
+                                f.IsIndexed = true;
+                            }
+
+                            if (fieldTypeAttrib.Generate == false)
+                            {
+                                addField = false;
+                            }
+                        }
+
+                        if (addField) // may be overridden by Generate = false
+                        {
+                            fields.Add(f);
+                        }
                     }
                 }
             }

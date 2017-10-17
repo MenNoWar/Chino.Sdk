@@ -32,13 +32,13 @@ namespace Chino.Sdk
         public string TokenType { get; set; }
 
         /// <summary>
-        /// Gets or sets the Expires
+        /// Gets or sets the seconds until the <seealso cref="AccessToken"/> expires.
         /// </summary>
         [JsonProperty(PropertyName = "expires_in")]
         public int Expires { get; set; }
 
         /// <summary>
-        /// Gets or sets the RefreshToken
+        /// Gets or sets the token used for refreshing the acess token
         /// </summary>
         [JsonProperty(PropertyName = "refresh_token")]
         public string RefreshToken { get; set; }

@@ -15,6 +15,8 @@ namespace Chino.Sdk
     using Chino.Sdk.Response;
     using Newtonsoft.Json;
     using RestSharp;
+    using System;
+    using System.Linq;
     using System.Collections.Generic;
 
     /// <summary>
@@ -168,13 +170,13 @@ namespace Chino.Sdk
         /// Gets or sets the Manage
         /// </summary>
         [JsonProperty(PropertyName = "manage")]
-        public List<PermissionGrants> Manage { get; set; }
+        public IEnumerable<PermissionGrants> Manage { get; set; }
 
         /// <summary>
         /// Gets or sets the Authorize
         /// </summary>
         [JsonProperty(PropertyName = "authorize")]
-        public List<PermissionGrants> Authorize { get; set; }
+        public IEnumerable<PermissionGrants> Authorize { get; set; }
     }
 
     /// <summary>
@@ -187,6 +189,17 @@ namespace Chino.Sdk
         /// </summary>
         [JsonProperty(PropertyName = "permissions")]
         public PermissionSet Permissions { get; set; }
+
+        private static List<string> PermissionsToList(IEnumerable<PermissionGrants> perms)
+        {
+            var result = new List<string>();
+            foreach (var p in perms)
+            {
+                result.Add(Convert.ToString(p.ToString().ToUpper()[0]));
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// The ChangePermissionsion
@@ -212,10 +225,45 @@ namespace Chino.Sdk
                 subjectId
             );
 
+            var permsManage = PermissionsToList(grants.Manage); //.Where(o=>o == "R" ||o=="U" || o == "D");
+            var permsAuthorize = PermissionsToList(grants.Authorize); //.Where(o=>o =="R" || o == "U" || o == "D"  || o == "A");
+            var permsCreatedManage = PermissionsToList(grants.CreatedDocument.Manage); //.Where(o => o == "R" || o == "U" || o == "D");
+            var permsCreatedAuthorize = PermissionsToList(grants.CreatedDocument.Authorize); // .Where(o => o == "R" || o == "U" || o == "D" || o == "A");
+
+            object grantBody = new { };
+
+            if (!permsCreatedManage.Any() && !permsCreatedAuthorize.Any())
+            {
+                grantBody = new
+                {
+                    manage = permsManage,
+                    authorize = permsAuthorize
+                };
+            } else
+            {
+                var created = new
+                {
+                    manage = permsCreatedManage,
+                    authorize = permsCreatedAuthorize,
+                };
+
+                grantBody = new
+                {
+                    manage = permsManage,
+                    authorize = permsAuthorize,
+                    created_document = created
+                };
+            }
+
             uri = uri.Replace("//", "/");
 
             var request = new RestRequest(uri, Method.POST);
-            Rest.Execute<BasicResponse>(client, request, grants);
+
+#if DEBUG
+            var bodyTxt = JsonConvert.SerializeObject(grantBody);
+#endif
+
+            Rest.Execute<BasicResponse>(client, request, grantBody);
         }
 
         /// <summary>
@@ -357,27 +405,27 @@ namespace Chino.Sdk
         /// <summary>
         /// Defines the repository
         /// </summary>
-        repository,
+        repositories,
 
         /// <summary>
-        /// Defines the schema
+        /// Access to the User Schema Structure
         /// </summary>
-        schema,
+        schemas,
 
         /// <summary>
         /// Defines the group
         /// </summary>
-        group,
+        groups,
 
         /// <summary>
         /// Defines the user
         /// </summary>
-        user,
+        users,
 
         /// <summary>
         /// Defines the document
         /// </summary>
-        document,
+        documents,
 
         /// <summary>
         /// Defines the user_schemas

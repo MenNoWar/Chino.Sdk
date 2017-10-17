@@ -26,6 +26,21 @@ namespace Chino.Sdk
     public class Blob
     {
         /// <summary>
+        /// Gets or sets the Id of the blob object
+        /// </summary>
+        [JsonProperty(PropertyName = "blob_id")]
+        public string Id { get; set; }
+
+        [JsonProperty(PropertyName = "bytes")]
+        public long ByteSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Id of the associated <seealso cref="Document"/>
+        /// </summary>
+        [JsonProperty(PropertyName = "document_id")]
+        public string DocumentId { get; set; }
+
+        /// <summary>
         /// Defines the chunkSize
         /// </summary>
         private static int chunkSize = 1048576;// 1024 * 1024;
@@ -36,11 +51,11 @@ namespace Chino.Sdk
         [JsonProperty(PropertyName = "file_name")]
         public string FileName { get; set; }
 
-        /// <summary>
+        /* /// <summary>
         /// Gets or sets the Size
         /// </summary>
-        [JsonProperty(PropertyName = "size")]
-        public long Size { get; set; }
+         [JsonProperty(PropertyName = "size")]
+        public long Size { get; set; } */
 
         /// <summary>
         /// Gets or sets the Sha1
@@ -53,6 +68,11 @@ namespace Chino.Sdk
         /// </summary>
         [JsonProperty(PropertyName = "md5")]
         public string Md5 { get; set; }
+
+        /// <summary>
+        /// Gets the blob contents
+        /// </summary>
+        public byte[] Bytes { get; private set; }        
 
         /// <summary>
         /// The HashOf
@@ -99,24 +119,66 @@ namespace Chino.Sdk
 
             var result = new Blob
             {
+                Id = blobId,
                 FileName = fileName,
                 Md5 = md5,
                 Sha1 = sha1,
-                Size = bytes.Length
+                ByteSize = bytes.Length,
+                Bytes = bytes
             };
 
             return result;
         }
 
         /// <summary>
-        /// The Upload
+        /// Uploads a file to the server
+        /// </summary>
+        /// <param name="client">The <see cref="RestClient"/></param>
+        /// <param name="bytes">the byte-array to upload to the server</param>
+        /// <param name="documentId">The <see cref="string"/></param>
+        /// <param name="field">The <see cref="string"/></param>       
+        /// <returns>a new instance of the <see cref="Blob"/></returns>        
+        internal static Blob Upload(RestClient client, byte[] bytes, string documentId, string field)
+        {
+            var blobResponse = InitUpload(client, documentId, field, DateTime.Now.ToString());
+
+            var file = new MemoryStream(bytes);
+            int currentFilePosition = 0;
+
+            file.Seek(currentFilePosition, SeekOrigin.Begin);
+            while (currentFilePosition < file.Length)
+            {
+                int distanceFromEnd = (int)file.Length - currentFilePosition;
+                if (distanceFromEnd > chunkSize)
+                {
+                    bytes = new byte[chunkSize];
+                    file.Read(bytes, 0, chunkSize);
+                }
+                else
+                {
+                    bytes = new byte[distanceFromEnd];
+                    file.Read(bytes, 0, distanceFromEnd);
+                }
+
+                UploadChunk(client, blobResponse.UploadId, bytes, currentFilePosition, bytes.Length);
+                currentFilePosition = currentFilePosition + bytes.Length;
+                file.Seek(currentFilePosition, SeekOrigin.Begin);
+            }
+
+            file.Close();
+
+            return CommitUpload(client, blobResponse.UploadId);
+        }
+
+        /// <summary>
+        /// Uploads a file to the server
         /// </summary>
         /// <param name="client">The <see cref="RestClient"/></param>
         /// <param name="uploadFilePath">The <see cref="string"/></param>
         /// <param name="documentId">The <see cref="string"/></param>
         /// <param name="field">The <see cref="string"/></param>
         /// <param name="fileName">The <see cref="string"/></param>
-        /// <returns>The <see cref="Blob"/></returns>
+        /// <returns>a new instance of the <see cref="Blob"/></returns>        
         public static Blob Upload(RestClient client, string uploadFilePath, string documentId, string field, string fileName)
         {
             var blobResponse = InitUpload(client, documentId, field, fileName);
@@ -176,7 +238,7 @@ namespace Chino.Sdk
             {
                 DocumentId = documentId,
                 Field = field,
-                FileName = fileName
+                FileName = "foobar" //fileName
             };
 
             var result = Rest.Execute<CreateBlobUploadResponse>(client, request, createBlobUploadRequest);
@@ -216,7 +278,7 @@ namespace Chino.Sdk
             var commitBlobUploadRequest = new CommitBlobUploadRequest();
             commitBlobUploadRequest.UploadId = uploadId;
 
-            var result = Rest.Execute<CommitBlobUploadResponse>(client, request, commitBlobUploadRequest);
+            var result = Rest.Execute<CommitBlobUploadResponse>(client, request, commitBlobUploadRequest);            
             return result.Data.Blob;
         }
     }
