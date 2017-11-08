@@ -16,12 +16,23 @@ namespace Chino.Sdk
     using RestSharp;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Class for performing a search on the CHINO.IO api
     /// </summary>
     public class Search
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Search"/> class.
+        /// </summary>
+        /// <param name="api">the SDK <see cref="Api"/> to use for retrieving the search data</param>
+        /// <param name="filters">the <see cref="SearchFilter"/> to use for retrieving the search data</param>
+        public Search(Api api, params SearchFilter[] filters) : this(api.Client)
+        {
+            this.Filters = filters.ToList();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Search"/> class.
         /// </summary>
@@ -115,6 +126,19 @@ namespace Chino.Sdk
         /// <returns>a new instance of the <see cref="SearchData"/> class</returns>
         public SearchData SearchDocuments(string schemaId, int offset, int limit)
         {
+            if (!Filters.Any())
+            {
+                throw new ChinoApiException("No Filters have been defined for the search.");
+            }
+
+            if (!Sortings.Any())
+            {
+                Sortings.Add(new SearchSort
+                {
+                    Field = Filters.First().Field
+                });
+            }
+
             var body = new
             {
                 result_type = ResultType.ToString(),
@@ -125,6 +149,29 @@ namespace Chino.Sdk
 
             var jSon = Utils.SerializeObject(body);
             var uriString = string.Format("/search/documents/{0}", schemaId);
+            var searchUri = new Uri(uriString, UriKind.Relative);
+
+            RestRequest request = new RestRequest(searchUri, Method.POST);
+            request.AddQueryParameter("offset", offset.ToString());
+            request.AddQueryParameter("limit", limit.ToString());
+            var result = Rest.Execute<SearchResult>(client, request, body);
+
+            return result.Data;
+        }
+
+
+        public SearchData SearchUsers(string schemaId, int offset, int limit)
+        {
+            var body = new
+            {
+                result_type = ResultType.ToString(),
+                filter_type = FilterType.ToString(),
+                sort = Sortings,
+                filter = Filters
+            };
+
+            var jSon = Utils.SerializeObject(body);
+            var uriString = string.Format("/search/users/{0}", schemaId);
             var searchUri = new Uri(uriString, UriKind.Relative);
 
             RestRequest request = new RestRequest(searchUri, Method.POST);

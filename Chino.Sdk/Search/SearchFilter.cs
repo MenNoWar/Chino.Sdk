@@ -20,6 +20,11 @@ namespace Chino.Sdk
     /// </summary>
     public class SearchFilter
     {
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} \"{2}\"", Field, Type, Value);
+        }
         /// <summary>
         /// the field which should be filtered
         /// </summary>

@@ -33,15 +33,10 @@ namespace Chino.Sdk
             Content = new Dictionary<string, object>();
         }
 
-        /// <summary>
-        /// Casts the <see cref="Document" /> to another class
-        /// </summary>
-        /// <typeparam name="T">the type to cast the document into</typeparam>
-        /// <returns>a new instance of the given type</returns>
-        public T Cast<T>()
+        public object Cast(Type t)
         {
             var document = this;
-            var obj = Activator.CreateInstance<T>();
+            var obj = Activator.CreateInstance(t);
             var props = obj.GetType().GetProperties();
             foreach (var kvp in document.Content)
             {
@@ -56,18 +51,6 @@ namespace Chino.Sdk
                         val = Convert.ToInt32(val);
                     }
                     
-                    //{
-                    //    if (string.IsNullOrEmpty(Convert.ToString(val)))
-                    //    {
-                    //        val = null;
-                    //    }
-                    //    else
-                    //    {
-                    //        val = Convert.FromBase64String(Convert.ToString(val));
-                    //    }
-                    //}
-
-
                     prop.SetValue(obj, val);
                 }
             }
@@ -83,6 +66,16 @@ namespace Chino.Sdk
             }
 
             return obj;
+        }
+
+        /// <summary>
+        /// Casts the <see cref="Document" /> to another class
+        /// </summary>
+        /// <typeparam name="T">the type to cast the document into</typeparam>
+        /// <returns>a new instance of the given type</returns>
+        public T Cast<T>()
+        {
+            return (T)Cast(typeof(T));
         }
 
         /// <summary>

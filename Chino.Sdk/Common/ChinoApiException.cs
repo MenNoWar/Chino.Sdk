@@ -53,4 +53,11 @@ namespace Chino.Sdk
         {
         }
     }
+
+    public class ChinoUnauthorizedException : ChinoApiException
+    {
+        public ChinoUnauthorizedException() : base() { }
+        public ChinoUnauthorizedException(string message) : base(message) { }
+
+    }
 }

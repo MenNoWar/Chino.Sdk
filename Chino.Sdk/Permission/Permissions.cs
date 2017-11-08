@@ -430,7 +430,9 @@ namespace Chino.Sdk
         /// <summary>
         /// Defines the user_schemas
         /// </summary>
-        user_schemas
+        user_schemas,
+
+        collections
     }
 
     /// <summary>

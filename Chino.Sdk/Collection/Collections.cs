@@ -39,7 +39,7 @@ namespace Chino.Sdk
         /// The List
         /// </summary>
         /// <returns>The <see cref="CollectionList"/></returns>
-        public CollectionList List()
+        public CollectionList List(bool includeDocuments = false)
         {
             return List(0, 100);
         }
@@ -50,9 +50,9 @@ namespace Chino.Sdk
         /// <param name="start">The <see cref="int"/></param>
         /// <param name="limit">The <see cref="int"/></param>
         /// <returns>The <see cref="CollectionList"/></returns>
-        public CollectionList List(int start, int limit)
+        public CollectionList List(int start, int limit, bool includeDocuments = false)
         {
-            return Collection.List(client, start, limit);
+            return Collection.List(client, start, limit, includeDocuments);
         }
 
         /// <summary>
@@ -84,17 +84,18 @@ namespace Chino.Sdk
         /// <returns>The <see cref="IEnumerable{Document}"/></returns>
         public IEnumerable<Document> Documents(string id, int start, int limit)
         {
-            return Collection.Documents(client, id, start, limit);
+            return Collection.GetDocuments(client, id, start, limit);
         }
 
         /// <summary>
         /// The Get
         /// </summary>
         /// <param name="id">The <see cref="string"/></param>
+        /// <param name="includeDocuments">Indicates whether the documens should be loaded too</param>
         /// <returns>The <see cref="Collection"/></returns>
-        public Collection Get(string id)
+        public Collection Get(string id, bool includeDocuments = false)
         {
-            return Collection.Get(client, id);
+            return Collection.Get(client, id, includeDocuments);
         }
 
         /// <summary>

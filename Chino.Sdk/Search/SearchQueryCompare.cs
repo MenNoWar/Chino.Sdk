@@ -40,6 +40,7 @@ namespace Chino.Sdk
         /// <summary>
         /// (=) only for boolean
         /// </summary>
-        @is
+        @is,
+        ne
     }
 }

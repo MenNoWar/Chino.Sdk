@@ -55,13 +55,29 @@ namespace Chino.Sdk
             if (obj is BasicResponse)
             {
                 var br = obj as BasicResponse;
-                if (br.StatusCode != 200)
+                switch (br.StatusCode)
                 {
-                    throw new ChinoApiException(br.StatusMessage);
-                }
+                    case 400:
+                    case 401:
+                    case 402:
+                    case 403:
+                        throw new ChinoUnauthorizedException(br.StatusMessage);
+                    case 200:
+                    default:
+                        if (br.StatusCode != 200)
+                        {
+                            throw new ChinoApiException(br.StatusMessage);
+                        }
+                        else
+                        {
+                            return obj;
+                        }
+                };
             }
-
-            return obj;
+            else
+            {
+                return obj;
+            }
         }
     }
 }

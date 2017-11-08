@@ -25,6 +25,6 @@ namespace Chino.Sdk
         /// Gets or sets the Collections
         /// </summary>
         [JsonProperty(PropertyName = "collections")]
-        public List<Collection> Collections { get; set; }
+        public IEnumerable<Collection> Collections { get; set; }
     }
 }
