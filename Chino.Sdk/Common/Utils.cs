@@ -144,7 +144,17 @@ namespace Chino.Sdk
             if (type == typeof(byte[]))
             {
                 return SchemaFieldType.blob;
-            };
+            }
+            else if (type == typeof(Nullable<DateTime>))
+            {
+                return SchemaFieldType.datetime;
+            } else if (type == typeof(Nullable<int>))
+            {
+                return SchemaFieldType.integer;
+            } else if (type == typeof(Nullable<bool>))
+            {
+                return SchemaFieldType.boolean;
+            }
 
             throw new ChinoApiException(string.Format("Not recognized CLR-Type: \"{0}\"", type.Name));
         }

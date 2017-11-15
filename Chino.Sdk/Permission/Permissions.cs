@@ -212,7 +212,7 @@ namespace Chino.Sdk
         /// <param name="childType">The <see cref="PermissionResourceType"/></param>
         /// <param name="subjectType">The <see cref="PermissionSubjectType"/></param>
         /// <param name="subjectId">The <see cref="string"/></param>
-        private static void ChangePermissionsion(RestClient client, PermissionAction action, PermissionSet grants,
+        private static void ChangePermission(RestClient client, PermissionAction action, PermissionSet grants,
             PermissionResourceType resourceType, string resourceId, PermissionResourceType childType,
             PermissionSubjectType subjectType, string subjectId)
         {
@@ -305,7 +305,7 @@ namespace Chino.Sdk
         /// <param name="subjectId">The <see cref="string"/></param>
         public static void Grant(RestClient client, PermissionSet grants, PermissionResourceType resourceType, string resourceId, PermissionResourceType childType, PermissionSubjectType subjectType, string subjectId)
         {
-            ChangePermissionsion(client, PermissionAction.grant, grants, resourceType, resourceId, childType, subjectType, subjectId);
+            ChangePermission(client, PermissionAction.grant, grants, resourceType, resourceId, childType, subjectType, subjectId);
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace Chino.Sdk
         /// <param name="subjectId">The <see cref="string"/></param>
         public static void Revoke(RestClient client, PermissionSet grants, PermissionResourceType resourceType, string resourceId, PermissionResourceType childType, PermissionSubjectType subjectType, string subjectId)
         {
-            ChangePermissionsion(client, PermissionAction.revoke, grants, resourceType, resourceId, childType, subjectType, subjectId);
+            ChangePermission(client, PermissionAction.revoke, grants, resourceType, resourceId, childType, subjectType, subjectId);
         }
     }
 

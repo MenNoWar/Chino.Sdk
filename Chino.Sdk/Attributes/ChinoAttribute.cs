@@ -54,9 +54,14 @@ namespace Chino.Sdk.Attributes
         }
 
         /// <summary>
-        /// the schema description
+        /// the schema description, only applies to a type (not to a property)
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// the property name, only applies to a property (not to a type)
+        /// </summary>
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to generate or ignore a property/class

@@ -220,16 +220,13 @@ namespace Chino.Sdk
                 {
                     bool isSealed = property.PropertyType.IsSealed;
                     if (isSealed)
-                    {
-                        // when PropertyName ends with "Id" let's pretend it's an indexed column
-                        var idxt = property.Name.ToUpper().EndsWith("ID");
+                    {                        
                         var type = Utils.CLRTypeToFieldType(property.PropertyType);
-                        SchemaField f = new SchemaField { Name = property.Name, Type = type, IsIndexed = idxt };
+                        SchemaField f = new SchemaField { Name = property.Name, Type = type };
 
                         var fieldTypeAttrib = property.GetCustomAttribute<Attributes.ChinoAttribute>();
                         if (fieldTypeAttrib != null)
-                        {
-                            
+                        {                            
                             if (fieldTypeAttrib.OverrideAutomaticFieldType)
                             {
                                 f.Type = fieldTypeAttrib.FieldType;
@@ -243,6 +240,11 @@ namespace Chino.Sdk
                             if (fieldTypeAttrib.Generate == false)
                             {
                                 addField = false;
+                            }
+
+                            if (!string.IsNullOrEmpty(fieldTypeAttrib.Name))
+                            {
+                                f.Name = fieldTypeAttrib.Name;
                             }
                         }
 
