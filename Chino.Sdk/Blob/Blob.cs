@@ -78,7 +78,7 @@ namespace Chino.Sdk
         /// The HashOf
         /// </summary>
         /// <typeparam name="TP"></typeparam>
-        /// <param name="bytes">The <see cref="byte[]"/></param>
+        /// <param name="bytes">The bytes</param>
         /// <param name="enc">The <see cref="Encoding"/></param>
         /// <returns>The <see cref="string"/></returns>
         protected static string HashOf<TP>(byte[] bytes, Encoding enc)
@@ -250,7 +250,7 @@ namespace Chino.Sdk
         /// </summary>
         /// <param name="client">The <see cref="RestClient"/></param>
         /// <param name="upload_id">The <see cref="string"/></param>
-        /// <param name="chunkData">The <see cref="byte[]"/></param>
+        /// <param name="chunkData">The chunkdata to upload</param>
         /// <param name="offset">The <see cref="int"/></param>
         /// <param name="length">The <see cref="int"/></param>
         /// <returns>The <see cref="BlobDefinition"/></returns>

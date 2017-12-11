@@ -33,7 +33,9 @@ namespace Chino.Sdk
             Content = new Dictionary<string, object>();
         }
 
+#pragma warning disable CS1591 // Fehledes XML-Kommentar für öffentlich sichtbaren Typ oder Element
         public object Cast(Type t)
+#pragma warning restore CS1591 // Fehledes XML-Kommentar für öffentlich sichtbaren Typ oder Element
         {
             var document = this;
             var obj = Activator.CreateInstance(t);

@@ -24,11 +24,11 @@ namespace Chino.Sdk
         /// <summary>
         /// The Execute
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">the Type to use</typeparam>
         /// <param name="client">The <see cref="IRestClient"/></param>
         /// <param name="request">The <see cref="IRestRequest"/></param>
         /// <param name="body">The <see cref="object"/></param>
-        /// <returns>The <see cref="T"/></returns>
+        /// <returns>a new object with type T</returns>
         public static T Execute<T>(IRestClient client, IRestRequest request, object body)
         {
             Utils.SetJsonBody(request, body);

@@ -23,6 +23,9 @@ namespace Chino.Sdk
     /// </summary>
     public class Collection
     {
+        /// <summary>
+        /// Initializes a new instance of the Collection class.
+        /// </summary>
         public Collection()
         {
             this.Documents = new List<Document>();

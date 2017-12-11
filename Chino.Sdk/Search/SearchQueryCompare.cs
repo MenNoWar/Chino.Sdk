@@ -18,29 +18,32 @@ namespace Chino.Sdk
     public enum SearchQueryCompare
     {
         /// <summary>
-        /// (=) equal, if the value is the same as the one specified.
+        /// equal, if the value is the same as the one specified.
         /// </summary>
         eq,
         /// <summary>
-        /// (<) less than
+        /// less than
         /// </summary>
         lt,
         /// <summary>
-        /// (<=) less than or equal
+        /// less than or equal
         /// </summary>
         lte,
         /// <summary>
-        /// (>) greater than
+        /// greater than
         /// </summary>
         gt,
         /// <summary>
-        /// (>=) greater than or equal
+        /// greater than or equal
         /// </summary>
         gte,
         /// <summary>
-        /// (=) only for boolean
+        /// only for boolean
         /// </summary>
         @is,
+        /// <summary>
+        /// not equal
+        /// </summary>
         ne
     }
 }

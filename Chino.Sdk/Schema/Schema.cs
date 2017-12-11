@@ -25,7 +25,9 @@ namespace Chino.Sdk
     /// </summary>
     public class Schema
     {
+#pragma warning disable CS1591 // Fehledes XML-Kommentar für öffentlich sichtbaren Typ oder Element
         public class OnSchemaCreatedEventArgs
+#pragma warning restore CS1591 // Fehledes XML-Kommentar für öffentlich sichtbaren Typ oder Element
         {
             public Schema Schema { get; set; }
             public int Total { get; set; }

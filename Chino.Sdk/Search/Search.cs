@@ -197,8 +197,6 @@ namespace Chino.Sdk
         /// </summary>
         /// <typeparam name="T">the class type to convert the resulting documents into</typeparam>
         /// <param name="schemaId">the Id of the Schema</param>
-        /// <param name="offset">from which starting record should the result be returned</param>
-        /// <param name="limit">indicates how many records should be returned</param>
         /// <returns>a new instance of the <see cref="SearchObjectData"/> class</returns>
         public SearchObjectData SearchDocumentsSpecialized<T>(string schemaId)
         {
